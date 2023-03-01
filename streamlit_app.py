@@ -13,6 +13,11 @@ def get_fruit_load_list():
    with my_cnx.cursor() as my_cur:
       my_cur.execute("select * from fruit_load_list")
       return my_cur.fetchall()
+   
+def insert_row_snowflake(new_fruit):
+   with my_cnx.cursor() as my_cur:
+      my_cur.execute("insert into fruit_load_list values ('" + new_fruit + "')")
+      return "Thanks for adding " + new_fruit
 
 my_fruit_list = pandas.read_csv("https://uni-lab-files.s3.us-west-2.amazonaws.com/dabw/fruit_macros.txt")
 my_fruit_list = my_fruit_list.set_index('Fruit')
@@ -51,16 +56,9 @@ if streamlit.button('Get Fruit Load List'):
    my_data_rows = get_fruit_load_list()
    streamlit.dataframe(my_data_rows)
 
-streamlit.stop()
-#New text input for value to pull from my_data_rows
-fruit_choice_snowflake = streamlit.text_input('What fruit would you like information about?','Jackfruit')
-streamlit.write('The user entered ', fruit_choice_snowflake)
-#fruit_to_show_snowflake = my_data_rows.loc[fruit_choice_snowflake]
-#streamlit.dataframe(fruit_to_show_snowflake)
-
-#fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + fruit_choice)
-
-# Let's put a pick list here so they can pick the fruit they want to include 
-#fruits_selected_snowflake = streamlit.multiselect("Pick some fruits:", list(my_data_rows.index))
-#fruits_to_show_snowflake = my_data_rows.loc[fruits_selected_snowflake]
-#streamlit.dataframe(fruits_selected_snowflake)
+#Allow the end user to add a fruit to the list
+add_my_fruit = streamlit.text_input('What fruit would you like to add?')
+if streamlit.button('Add a Fruit to the List'):
+   my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
+   back_from_function = insert_row_snowflake(add_my_fruit)
+   streamlit.text(back_from_function)
