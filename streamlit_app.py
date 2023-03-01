@@ -40,10 +40,10 @@ streamlit.text("The fruit load list contains:")
 streamlit.dataframe(my_data_rows)
 
 #New text input for value to pull from my_data_rows
-fruit_choice_snowflake = streamlit.text_input('What fruit would you like information about?','Kiwi')
+fruit_choice_snowflake = streamlit.text_input('What fruit would you like information about?','Jackfruit')
 streamlit.write('The user entered ', fruit_choice_snowflake)
-fruit_to_show_snowflake = my_data_rows.loc[fruit_choice_snowflake]
-streamlit.dataframe(fruit_to_show_snowflake)
+#fruit_to_show_snowflake = my_data_rows.loc[fruit_choice_snowflake]
+#streamlit.dataframe(fruit_to_show_snowflake)
 
 #fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + fruit_choice)
 
