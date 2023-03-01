@@ -38,3 +38,16 @@ my_cur.execute("SELECT * from fruit_load_list")
 my_data_rows = my_cur.fetchall()
 streamlit.text("The fruit load list contains:")
 streamlit.dataframe(my_data_rows)
+
+#New text input for value to pull from my_data_rows
+fruit_choice_snowflake = streamlit.text_input('What fruit would you like information about?','Kiwi')
+streamlit.write('The user entered ', fruit_choice_snowflake)
+fruit_to_show_snowflake = my_data_rows.loc[fruit_choice_snowflake]
+streamlit.dataframe(fruit_to_show_snowflake)
+
+#fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + fruit_choice)
+
+# Let's put a pick list here so they can pick the fruit they want to include 
+#fruits_selected_snowflake = streamlit.multiselect("Pick some fruits:", list(my_data_rows.index))
+#fruits_to_show_snowflake = my_data_rows.loc[fruits_selected_snowflake]
+#streamlit.dataframe(fruits_selected_snowflake)
